@@ -5,11 +5,30 @@ set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PYTHON_SCRIPT="$SCRIPT_DIR/claude_auto.py"
+SESSION_NAME="claude-auto"
+
+# クリーンナップ関数
+cleanup() {
+    echo ""
+    echo "[クリーンナップ] tmuxセッションを削除中..."
+    tmux kill-session -t "$SESSION_NAME" 2>/dev/null || true
+    echo "[完了] クリーンナップ完了 ✓"
+    exit 0
+}
+
+# シグナルハンドラ設定（Ctrl+C, SIGTERM, SIGINT）
+trap cleanup SIGINT SIGTERM EXIT
 
 # デフォルト値（改行を含む）
-DEFAULT_PROMPT="日本語で、docs/features/ 配下にある実装計画を読み取ってチェックリスト形式で実装をしてください。
-ベストプラクティスに沿って実装をしてください。
-テストコードやlintなどは完全に全て通るまで実装をつづけてください。"
+DEFAULT_PROMPT="
+- 日本語で進めてください
+- 引き続き docs/features/ 配下にある実装計画を読み取ってチェックリスト形式で実装をしてください
+- ベストプラクティスに沿って実装をしてください
+- 実装が完了をしたらチェックリストを更新してください
+- テストコードやlintなどは完全に全て通るまで実装をつづけてください
+- 定期的にpushしてください
+- すべてのチェックリストが完了したら docs/closed/にドキュメントを移動してください
+"
 
 # ヘルプメッセージ
 show_help() {

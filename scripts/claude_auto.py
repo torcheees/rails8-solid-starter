@@ -376,9 +376,9 @@ class ClaudeAutoResponder:
 
         except KeyboardInterrupt:
             print("\n[中断] ユーザーによる停止")
-            print(f"[情報] tmuxセッションは残っています")
-            print(f"       接続: tmux attach -t {self.session_name}")
-            print(f"       削除: tmux kill-session -t {self.session_name}")
+            print(f"[クリーンナップ] tmuxセッションを削除中...")
+            self.tmux_cmd(f"kill-session -t {self.session_name} 2>/dev/null")
+            print(f"[完了] クリーンナップ完了 ✓")
 
 if __name__ == '__main__':
     import argparse

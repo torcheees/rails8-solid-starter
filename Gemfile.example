@@ -1,0 +1,94 @@
+# frozen_string_literal: true
+
+source 'https://rubygems.org'
+
+ruby '3.2.2'
+
+# Rails 8
+gem 'rails', '~> 8.0'
+
+# Database
+gem 'pg'
+
+# Rails 8 Defaults - Solid Stack (No Redis Required!)
+gem 'propshaft'           # Asset pipeline
+gem 'solid_cable'         # Database-backed WebSocket
+gem 'solid_cache'         # Database-backed cache
+gem 'solid_queue'         # Database-backed job queue
+gem 'thruster'            # HTTP/2 proxy server
+
+# View Engine
+gem 'haml-rails'          # HAML template engine (100% HAML, NO ERB)
+
+# CSS & JS
+gem 'jsbundling-rails'    # Bundle JS with esbuild
+gem 'stimulus-rails'      # Hotwire Stimulus
+gem 'tailwindcss-rails'   # Tailwind CSS integration (100% Tailwind, NO custom CSS)
+gem 'turbo-rails'         # Hotwire Turbo
+
+# Authentication & Authorization
+gem 'devise'              # Authentication
+gem 'devise-i18n'         # Devise translations
+gem 'devise_invitable'    # Team invitations (optional)
+gem 'pundit'              # Authorization (policy-based RBAC)
+
+# Multi-tenancy (Rails 8 Native Approach)
+# Using Current attributes instead of acts_as_tenant gem
+# See app/models/current.rb for implementation
+
+# Payments & Subscriptions (Optional - for SaaS applications)
+# gem 'pay'                 # Payment processing
+# gem 'receipts'            # Generate invoices/receipts
+# gem 'stripe', '~> 15.0'   # Stripe API
+
+# API (Optional - if building API)
+# gem 'jwt'                 # JSON Web Tokens
+# gem 'rack-attack'         # Rate limiting & throttling
+# gem 'rack-cors'           # CORS support
+# gem 'jbuilder'            # JSON builder for API
+
+# HTTP Client (Optional - for external API calls)
+# gem 'faraday'             # HTTP client
+# gem 'faraday-retry'       # Retry middleware for Faraday
+
+# Utilities
+gem 'bootsnap', require: false # Boot time optimization
+gem 'friendly_id'         # Slugs for URLs (optional)
+gem 'kaminari'            # Pagination
+
+# Use the Puma web server
+gem 'puma', '>= 5.0'
+
+# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
+gem 'tzinfo-data', platforms: %i[windows jruby]
+
+group :development, :test do
+  gem 'debug'             # Debugging
+  gem 'dotenv-rails'      # Load .env files
+  gem 'factory_bot_rails' # Test fixtures
+  gem 'faker'             # Fake data generation
+  gem 'rspec-rails'       # Testing framework (BDD style)
+end
+
+group :development do
+  gem 'annotate'          # Schema annotations in models
+  gem 'brakeman'          # Security vulnerability scanner
+  gem 'haml_lint', require: false # HAML linting
+  gem 'i18n-tasks'        # I18n translation management
+  gem 'letter_opener'     # Preview emails in browser
+  gem 'rack-mini-profiler' # Performance profiling
+  gem 'rubocop-rails-omakase' # Rails style guide
+  gem 'web-console'       # Browser console
+  gem 'yamllint'          # YAML linting
+end
+
+group :test do
+  gem 'capybara'          # System testing
+  gem 'database_cleaner-active_record' # Database cleaning
+  gem 'pundit-matchers'   # Pundit policy testing
+  gem 'rails-controller-testing' # Controller assigns and assert_template
+  gem 'selenium-webdriver' # Browser automation
+  gem 'shoulda-matchers'  # RSpec/Test matchers
+  gem 'simplecov', require: false # Code coverage
+  gem 'webmock'           # HTTP request stubbing
+end

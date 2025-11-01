@@ -1,0 +1,72 @@
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 3.2
+  Exclude:
+    - 'db/schema.rb'
+    - 'db/migrate/*'
+    - 'bin/*'
+    - 'node_modules/**/*'
+    - 'vendor/**/*'
+
+# Ignore BlockLength in specs
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+    - 'config/**/*'
+    - 'db/queue_schema.rb'
+    - 'db/schema.rb'
+    - 'lib/tasks/**/*'
+    - 'app/controllers/**/*'
+
+# Allow longer line lengths in specs
+Layout/LineLength:
+  Max: 120
+  Exclude:
+    - 'spec/**/*'
+
+# Allow longer methods in services
+Metrics/MethodLength:
+  Max: 50
+  Exclude:
+    - 'app/models/**/*'
+    - 'app/services/**/*'
+    - 'app/controllers/**/*'
+
+# Allow higher ABC complexity in services
+Metrics/AbcSize:
+  Max: 80
+
+# Allow higher cyclomatic complexity
+Metrics/CyclomaticComplexity:
+  Max: 15
+
+# Allow higher perceived complexity
+Metrics/PerceivedComplexity:
+  Max: 15
+
+# Allow longer classes
+Metrics/ClassLength:
+  Max: 500
+
+# Allow longer modules
+Metrics/ModuleLength:
+  Max: 250
+
+# Allow more parameters in helper methods
+Metrics/ParameterLists:
+  Max: 6
+
+# Allow predicate method names without ?
+Naming/PredicateMethod:
+  Enabled: false
+
+# Allow predicate prefix patterns
+Naming/PredicatePrefix:
+  Enabled: false
+
+# Disable some strict style cops
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: true

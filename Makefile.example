@@ -1,0 +1,131 @@
+# Makefile for Rails 8 Development
+# Provides common development commands for efficient workflow
+
+.PHONY: help setup dev console routes test test-fast test-file lint fix \
+        db-migrate db-rollback db-reset db-seed \
+        i18n-health i18n-missing i18n-unused i18n-normalize yaml-lint \
+        generate-controller generate-model generate-migration \
+        jobs stats security info
+
+# Default target
+help: ## Show this help message
+	@echo 'Usage: make [target]'
+	@echo ''
+	@echo 'Available targets:'
+	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
+
+# Setup
+setup: ## Initial project setup
+	bundle install
+	bin/rails db:create db:migrate
+	bin/rails db:seed
+	@echo "Setup complete! Run 'make dev' to start the server."
+
+# Development
+dev: ## Start development server (Rails + Solid Queue + asset watching)
+	bin/dev
+
+console: ## Open Rails console
+	bin/rails console
+
+routes: ## Show all routes
+	bin/rails routes
+
+# Testing
+test: ## Run all tests with coverage
+	COVERAGE=true bundle exec rspec
+
+test-fast: ## Run tests without coverage
+	bundle exec rspec
+
+test-file: ## Run specific test file (usage: make test-file FILE=spec/models/user_spec.rb)
+	bundle exec rspec $(FILE)
+
+# Linting
+lint: ## Run all linters (RuboCop + HAML-Lint)
+	bundle exec rubocop
+	bundle exec haml-lint app/views
+
+fix: ## Auto-fix RuboCop offenses
+	bundle exec rubocop -A
+
+# Database
+db-migrate: ## Run database migrations
+	bin/rails db:migrate
+
+db-rollback: ## Rollback last migration
+	bin/rails db:rollback
+
+db-reset: ## Reset database (CAUTION: destroys all data)
+	bin/rails db:drop db:create db:migrate db:seed
+
+db-seed: ## Seed database
+	bin/rails db:seed
+
+# Internationalization
+i18n-health: ## Check translation health (missing + unused)
+	bundle exec i18n-tasks health
+
+i18n-missing: ## Find missing translations
+	bundle exec i18n-tasks missing
+
+i18n-unused: ## Find unused translations
+	bundle exec i18n-tasks unused
+
+i18n-normalize: ## Normalize and sort translation files
+	bundle exec i18n-tasks normalize
+
+yaml-lint: ## Validate YAML files
+	yamllint config/locales
+
+# Code Generation
+generate-controller: ## Generate controller (usage: make generate-controller NAME="Posts index show")
+	bin/rails generate controller $(NAME) --template-engine=haml
+
+generate-model: ## Generate model (usage: make generate-model NAME="Post title:string body:text")
+	bin/rails generate model $(NAME)
+
+generate-migration: ## Generate migration (usage: make generate-migration NAME="AddFieldToTable")
+	bin/rails generate migration $(NAME)
+
+# Background Jobs
+jobs: ## Start Solid Queue workers
+	bin/jobs
+
+# Project Statistics
+stats: ## Show project statistics
+	@echo "=== Project Statistics ==="
+	@echo ""
+	@echo "Ruby version:"
+	@ruby --version
+	@echo ""
+	@echo "Rails version:"
+	@bin/rails --version
+	@echo ""
+	@echo "Database:"
+	@bin/rails db:version 2>/dev/null || echo "Database not set up"
+	@echo ""
+	@echo "Code statistics:"
+	@bin/rails stats
+	@echo ""
+	@echo "Test coverage:"
+	@if [ -f coverage/.last_run.json ]; then \
+		cat coverage/.last_run.json | grep -o '"covered_percent":[0-9.]*' | cut -d: -f2; \
+		echo "%"; \
+	else \
+		echo "Run 'make test' to generate coverage report"; \
+	fi
+
+# Security
+security: ## Run security vulnerability scanner
+	bundle exec brakeman
+
+# Info
+info: ## Show environment information
+	@echo "=== Environment Information ==="
+	@echo "Ruby: $(shell ruby --version)"
+	@echo "Rails: $(shell bin/rails --version)"
+	@echo "Bundler: $(shell bundle --version)"
+	@echo "Node: $(shell node --version 2>/dev/null || echo 'Not installed')"
+	@echo "pnpm: $(shell pnpm --version 2>/dev/null || echo 'Not installed')"
+	@echo "PostgreSQL: $(shell psql --version 2>/dev/null || echo 'Not installed')"

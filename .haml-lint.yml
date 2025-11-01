@@ -1,0 +1,42 @@
+# HAML-Lint configuration for Tailwind CSS project
+linters:
+  # Disable some overly strict linters
+  LineLength:
+    max: 500  # Tailwind utility classes can be very long, especially for responsive design and inline styles in emails
+
+  ViewLength:
+    enabled: false  # Some views are legitimately long
+
+  InlineStyles:
+    enabled: false  # Allow inline styles for utility classes
+
+  InstanceVariables:
+    enabled: false  # Rails views use instance variables
+
+  # Disable RuboCop integration to avoid conflicts
+  RuboCop:
+    enabled: false
+
+  MultilinePipe:
+    enabled: true
+
+  TrailingWhitespace:
+    enabled: true
+
+  SpaceInsideHashAttributes:
+    enabled: false  # Tailwind inline styles often have tight hash attributes
+
+  ClassesBeforeIds:
+    enabled: false  # Allow flexible ordering for IDs and classes
+
+  ObjectReferenceAttributes:
+    enabled: false  # Allow object reference syntax for dynamic attributes
+
+  UnnecessaryStringOutput:
+    enabled: false  # Allow explicit string output for clarity
+
+  ImplicitDiv:
+    enabled: false  # Allow explicit %div for clarity
+
+  ConsecutiveSilentScripts:
+    enabled: false  # Allow multiple consecutive silent scripts

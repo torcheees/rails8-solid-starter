@@ -1,0 +1,33 @@
+{
+  "name": "rails8-solid-starter-monorepo",
+  "version": "1.0.0",
+  "description": "Production-ready Rails 8 + React Native monorepo with Solid Stack, HAML, Tailwind CSS, TypeScript, and best practices",
+  "private": true,
+  "packageManager": "pnpm@9.0.0",
+  "scripts": {
+    "dev": "pnpm --filter web dev",
+    "build": "pnpm --filter web build && pnpm --filter @myapp/shared build",
+    "build:web": "pnpm --filter web build",
+    "build:shared": "pnpm --filter @myapp/shared build",
+    "lint": "pnpm --filter web lint && pnpm --filter mobile lint && pnpm --filter @myapp/shared lint",
+    "lint:web": "pnpm --filter web lint",
+    "lint:mobile": "pnpm --filter mobile lint",
+    "lint:shared": "pnpm --filter @myapp/shared lint",
+    "type-check": "pnpm --filter web type-check && pnpm --filter mobile type-check && pnpm --filter @myapp/shared type-check",
+    "test": "pnpm --filter @myapp/shared test && pnpm --filter mobile test",
+    "mobile:start": "pnpm --filter mobile start",
+    "mobile:ios": "pnpm --filter mobile ios",
+    "mobile:android": "pnpm --filter mobile android"
+  },
+  "keywords": [
+    "rails",
+    "react-native",
+    "expo",
+    "monorepo",
+    "typescript",
+    "tailwind",
+    "solid-stack"
+  ],
+  "author": "",
+  "license": "ISC"
+}

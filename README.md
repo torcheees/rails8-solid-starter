@@ -1,8 +1,8 @@
 # Rails 8 Solid Starter
 
-**Production-ready Rails 8 starter kit with best practices and modern tooling**
+**Production-ready Rails 8 + React Native monorepo with best practices and modern tooling**
 
-このスターターキットは、実践的なSaaSアプリケーション開発で培ったベストプラクティスを詰め込んだRails 8プロジェクトのテンプレートです。
+このスターターキットは、実践的なSaaSアプリケーション開発で培ったベストプラクティスを詰め込んだRails 8 + React Nativeモノレポテンプレートです。
 
 ## 🎯 What's Included
 
@@ -13,18 +13,27 @@
 - **Solid Cache** - Database-backed caching
 - **Solid Cable** - Database-backed WebSockets
 
-### Frontend
+### Frontend (Web)
 - **Tailwind CSS 3** - Utility-first CSS framework
 - **Hotwire** (Turbo + Stimulus) - Modern frontend without JavaScript bloat
 - **React 18 + TypeScript** - For complex interactive widgets
 - **HAML** - Clean, maintainable view templates
 - **esbuild** - Lightning-fast JavaScript bundling
 
+### Mobile
+- **React Native 0.81.5** + **Expo SDK 54** - Cross-platform mobile development
+- **Expo Router** - File-based routing for React Native
+- **NativeWind** - Tailwind CSS for React Native
+- **Zustand** - Lightweight state management
+- **React Query** - Data fetching and caching
+- **@myapp/shared** - Shared TypeScript package with web
+
 ### Architecture Patterns
 - **Rails 8 Native Multi-tenancy** - Using `Current` attributes (no gems)
 - **Pundit Authorization** - Policy-based RBAC
 - **Service Layer Pattern** - Clean separation of business logic
 - **Monorepo Structure** - pnpm workspaces (web + mobile + shared)
+- **Type-safe API** - Shared TypeScript types between web and mobile
 
 ### Testing & Quality
 - **RSpec** - Behavior-driven testing
@@ -47,7 +56,29 @@
 rails8-solid-starter/
 ├── README.md                    # This file
 ├── PROJECT_TEMPLATE.md          # Complete setup guide (650+ lines)
+├── MONOREPO.md                  # Monorepo structure guide ⭐ NEW
 ├── CLAUDE.md                    # AI assistant instructions
+├── pnpm-workspace.yaml          # Workspace configuration ⭐ NEW
+├── web/                         # Rails 8 application
+│   └── package.json.example     # Web frontend dependencies
+├── mobile/                      # React Native + Expo ⭐ NEW
+│   ├── app/                     # Expo Router screens
+│   │   ├── (auth)/             # Auth screens
+│   │   ├── (tabs)/             # Main app tabs
+│   │   └── _layout.tsx         # Root layout
+│   ├── src/
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   └── store/              # Zustand stores
+│   ├── package.json
+│   └── app.json                # Expo configuration
+├── packages/                    # Shared packages ⭐ NEW
+│   └── shared/                  # Shared TypeScript code
+│       ├── src/
+│       │   ├── api/            # API clients
+│       │   ├── types/          # TypeScript types
+│       │   └── validators/     # Zod schemas
+│       └── package.json
 ├── .rubocop.yml                 # Ruby style configuration
 ├── .haml-lint.yml              # HAML linting configuration
 ├── eslint.config.mjs           # JavaScript/TypeScript linting
